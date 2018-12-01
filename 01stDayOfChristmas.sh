@@ -1,36 +1,36 @@
 #!/bin/bash
 frequency=0
-#rm thelist
-#found=''
-#while [ $found -z ]
-#anotherlist=''
-#do
+rm thelist
+rm sortfile
+rm freqfile
+found=0
+#nf=0
 
+while [ $found -eq 0 ]
+do
+sleep 1
 while IFS='' read -r line || [[ -n "$line" ]]; do
     echo "Text read from file: $line"
-    typeset -i variable=$line 
-    frequency=$(( frequency+variable ))
-   # anotherlist=$(( ` echo "$anotherlist" "$frequency" ` )) 
-   # listoffrequencies=` echo $frequency `
-   # echo "$listoffrequencies" >> thelist
-   # cat thelist
-   # sleep 2 
-   # key='\'$frequency 
-   # echo $key  
-   # found=` grep ['$key'] thelist ` 
-   # echo it is: $found
-
+    typeset -i change=$line 
+    frequency=$(( frequency+change ))
+    anotherlist=` echo $anotherlist" "$frequency ` 
+    echo $frequency >> freqfile 
+    #cat freqfile 
+    sort freqfile | uniq > sortfile
+    #cat sortfile
+    fn=` cat freqfile | wc -l `
+    fs=` cat sortfile | wc -l `
+    echo $fn $fs 
+    if [ $fs != $fn ]
+    then
+    found=$(( 1 ))
+    solution=$frequency
+    echo RJESENJE JE $solution
+    break
+    fi
 done < "$1"
-#echo $anotherlist
-#done
 echo Resulting frequency is $frequency
-
-#cat listoffrequencies
-#cut -c1 $1 >> signs
-#cat signs
-#sleep 1
-
-
+done
 exit 
 
 
