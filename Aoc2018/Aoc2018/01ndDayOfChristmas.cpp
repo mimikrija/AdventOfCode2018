@@ -55,11 +55,11 @@ while ( !Found )
 for (int Change : ListOfChanges)
 {
 	Frequency += Change;
-	auto p = find(ListOfFrequencies.begin(),ListOfFrequencies.end(), Frequency);
-	if (*p != 0) //what if the frequency is zero???
+	int p = any_of(ListOfFrequencies.begin(),ListOfFrequencies.end(), Frequency);
+	if ( p > 0)
 	{
 	    
-	    cout << "The first repeating frequency is: " << *p << "!! \n";
+	    cout << "The first repeating frequency is: " << Frequency << "!! \n";
 	    Found = true;
 	    break;
 	}
