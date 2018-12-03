@@ -1,3 +1,11 @@
+/******************************************************************************
+
+Welcome to GDB Online.
+GDB online is an online compiler and debugger tool for C, C++, Python, PHP, Ruby, 
+C#, VB, Perl, Swift, Prolog, Javascript, Pascal, HTML, CSS, JS
+Code, Compile, Run and Debug online from anywhere in world.
+
+*******************************************************************************/
 #include <stdio.h>
 #include <iostream>
 #include <fstream>
@@ -5,64 +13,59 @@
 #include <iterator>
 #include <vector>
 #include <algorithm>
+#include <numeric>
 using namespace std;
+
 
 int main()
 {
     
 
-    // read input file
-    string InputFileName;
-    cout << "Input file name?";
-    cin >> InputFileName;
-    ifstream InputFile(InputFileName);
 
-    // put input file into a vector
-    vector<int> ListOfChanges{ istream_iterator<int>{InputFile},{} };
+string InputFileName;
+cout << "Input file name?";
+cin >> InputFileName;
+ifstream InputFile(InputFileName);
+bool Found = false;
 
-    // this is a vector for the second part
-    vector<long> ListOfFrequencies;
+vector<int> ListOfChanges{ istream_iterator<int>{InputFile},{} };
 
-    int Frequency = 0;
-    for (int Change : ListOfChanges)
-    {
-    	Frequency += Change;
-		ListOfFrequencies.push_back(Frequency);
-		}
+vector<long> ListOfFrequencies;
 
-		cout << "Resulting frequency is: " << Frequency << "!! \n";
-		// end of first part
+int Frequency = accumulate(begin(ListOfChanges), end (ListOfChanges),0);
+cout << "Resulting frequency is: " << Frequency << "!! \n";
+
+//this is for the second part
+Frequency = 0;
+for (int Change : ListOfChanges)
+{
+	Frequency += Change;
+	ListOfFrequencies.push_back(Frequency);
+}
 
 
 
-		// second part: check which frequency appears twice
-		// append new frequency to the list, check if it already exists
+vector<long> ListOfUniqueFrequencies = ListOfFrequencies;
 
-		bool Found = false;
 
-		while ( !Found )
-		{
-		for (int Change : ListOfChanges)
-		{
-			Frequency += Change;
-				
-					//int p = count(ListOfFrequencies.begin(),ListOfFrequencies.end(), Frequency);
-						Found = any_of(begin(ListOfFrequencies),end(ListOfFrequencies),
-							[Frequency] (auto elem) {return elem == Frequency;}
-								);
-									//if (p > 0)
-										if ( Found )
-											{
-												    
-												    	    cout << "The first repeating frequency is: " << Frequency << "!! \n";
-													    	    //Found = true;
-														    	    break;
-															    	}
-																	
-																		ListOfFrequencies.push_back(Frequency);
-																			
-																			}
-																			}
+sort(ListOfFrequencies.begin(),ListOfFrequencies.end());
 
-																			    return 0;
-																			    }
+while ( !Found )
+{
+for (int Change : ListOfChanges)
+{
+	Frequency += Change;
+	auto p = find(ListOfFrequencies.begin(),ListOfFrequencies.end(), Frequency);
+	if (*p != 0) //what if the frequency is zero???
+	{
+	    
+	    cout << "The first repeating frequency is: " << *p << "!! \n";
+	    Found = true;
+	    break;
+	}
+	ListOfFrequencies.push_back(Frequency);
+}
+}
+
+    return 0;
+}
