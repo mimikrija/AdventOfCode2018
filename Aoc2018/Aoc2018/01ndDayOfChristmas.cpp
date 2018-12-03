@@ -1,4 +1,11 @@
+/******************************************************************************
 
+Welcome to GDB Online.
+GDB online is an online compiler and debugger tool for C, C++, Python, PHP, Ruby, 
+C#, VB, Perl, Swift, Prolog, Javascript, Pascal, HTML, CSS, JS
+Code, Compile, Run and Debug online from anywhere in world.
+
+*******************************************************************************/
 #include <stdio.h>
 #include <iostream>
 #include <fstream>
@@ -42,17 +49,18 @@ int main()
 		for (int Change : ListOfChanges)
 		{
 			Frequency += Change;
-				auto p = find(ListOfFrequencies.begin(),ListOfFrequencies.end(), Frequency);
-					if (*p != 0) //what if the frequency is zero???
-						{
-							    
-							    	    cout << "The first repeating frequency is: " << *p << "!! \n";
-								    	    Found = true;
-									    	    break;
-										    	}
-												ListOfFrequencies.push_back(Frequency);
-												}
-												}
+				ListOfFrequencies.push_back(Frequency);
+					int p = count(ListOfFrequencies.begin(),ListOfFrequencies.end(), Frequency);
+						if (p > 1) //what if the frequency is zero???
+							{
+								    
+								    	    cout << "The first repeating frequency is: " << Frequency << "!! \n";
+									    	    Found = true;
+										    	    break;
+											    	}
+													
+													}
+													}
 
-												    return 0;
-												    }
+													    return 0;
+													    }
