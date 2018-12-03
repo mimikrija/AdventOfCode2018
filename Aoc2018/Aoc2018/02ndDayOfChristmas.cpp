@@ -1,11 +1,3 @@
-/******************************************************************************
-
-Online C++ Compiler.
-Code, Compile, Run and Debug C++ program online.
-Write your code in this editor and press "Run" button to compile and execute it.
-
-*******************************************************************************/
-
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -22,7 +14,7 @@ int main()
 	bool ThreeTimes = false;
 	int CountTwos = 0;
 	int CountThrees = 0;
-	int CountAllPositions = -1;
+
 	//vector<string> CorrectList;
 	cout << "Input file name?";
 	cin >> InputFileName;
@@ -71,15 +63,8 @@ int main()
 		{
 			CountThrees++;
 		}
-
-		if (TwoTimes || ThreeTimes)
-		{
-			CountAllPositions++;
-		}
-
-
-
 	}
+
 
 
 
@@ -109,7 +94,7 @@ int main()
 		{
 
 			vector<string>::iterator it = adjacent_find(CheckList.begin(), CheckList.end());
-			cout << "The winner is " << *it;
+			cout << "The first set of common (-1) characters is " << *it << "!!";
 			Found = true;
 			break;
 		}
@@ -119,8 +104,6 @@ int main()
 		}
 
 	}
-
-
 
 	return 0;
 }
