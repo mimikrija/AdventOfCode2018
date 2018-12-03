@@ -1,11 +1,3 @@
-/******************************************************************************
-
-Welcome to GDB Online.
-GDB online is an online compiler and debugger tool for C, C++, Python, PHP, Ruby, 
-C#, VB, Perl, Swift, Prolog, Javascript, Pascal, HTML, CSS, JS
-Code, Compile, Run and Debug online from anywhere in world.
-
-*******************************************************************************/
 #include <stdio.h>
 #include <iostream>
 #include <fstream>
@@ -19,15 +11,16 @@ int main()
 {
     
 
-
+    // read input file
     string InputFileName;
     cout << "Input file name?";
     cin >> InputFileName;
     ifstream InputFile(InputFileName);
-    bool Found = false;
 
+    // put input file into a vector
     vector<int> ListOfChanges{ istream_iterator<int>{InputFile},{} };
 
+    // this is a vector for the second part
     vector<long> ListOfFrequencies;
 
     int Frequency = 0;
@@ -38,29 +31,38 @@ int main()
 		}
 
 		cout << "Resulting frequency is: " << Frequency << "!! \n";
+		// end of first part
 
-		vector<long> ListOfUniqueFrequencies = ListOfFrequencies;
 
 
-		sort(ListOfFrequencies.begin(),ListOfFrequencies.end());
+		// second part: check which frequency appears twice
+		// append new frequency to the list, check if it already exists
+
+		bool Found = false;
 
 		while ( !Found )
 		{
 		for (int Change : ListOfChanges)
 		{
 			Frequency += Change;
-				ListOfFrequencies.push_back(Frequency);
-					int p = count(ListOfFrequencies.begin(),ListOfFrequencies.end(), Frequency);
-						if (p > 1) //what if the frequency is zero???
-							{
-								    
-								    	    cout << "The first repeating frequency is: " << Frequency << "!! \n";
-									    	    Found = true;
-										    	    break;
-											    	}
-													
-													}
-													}
+				
+					//int p = count(ListOfFrequencies.begin(),ListOfFrequencies.end(), Frequency);
+						Found = any_of(begin(ListOfFrequencies),end(ListOfFrequencies),
+							[Frequency] (auto elem) {return elem == Frequency;}
+								);
+									//if (p > 0)
+										if ( Found )
+											{
+												    
+												    	    cout << "The first repeating frequency is: " << Frequency << "!! \n";
+													    	    //Found = true;
+														    	    break;
+															    	}
+																	
+																		ListOfFrequencies.push_back(Frequency);
+																			
+																			}
+																			}
 
-													    return 0;
-													    }
+																			    return 0;
+																			    }
