@@ -13,12 +13,15 @@ private:
 	
 	//auto DelimiterPosition(std::string InputString, std::string delimiter);
 	//std::set<std::pair<int,int>> WholeMap;
+	int upperX, upperY, lowerX, lowerY;
+	
 
 public:
 	std::string ID;
 	int length;
 	int height;
-	std::pair<int, int> Coordinates;
+	std::pair<int, int> UpperLeft, LowerRight;
+
 	TextilePatch();
 
 	std::set<std::pair<int, int>> TextilePatch::WholeMap();
@@ -33,4 +36,7 @@ friend bool operator< (const TextilePatch &left, const TextilePatch  &right);
 //friend bool operator<(const std::pair<int,int> &left, const  std::pair<int, int>  &right);
 //friend TextilePatch operator+= (const TextilePatch &left, const TextilePatch  &right);
 
+bool TextilePatch::DoTheyOverlap(TextilePatch Piece1, TextilePatch Piece2);
+
+std::pair<int, int> TextilePatch::CalculateOverlap(TextilePatch Piece1, TextilePatch Piece2);
 };

@@ -7,11 +7,11 @@ using namespace std;
 //	return InputString.find(delimiter);
 //}
 
-TextilePatch::TextilePatch():ID("id"), Coordinates({}), length(0), height(0)
+TextilePatch::TextilePatch():ID("id"), UpperLeft({}), length(0), height(0)
 {
 }
 
-//TextilePatch TextilePatch::Fill(string RawInput) //ID(" "), Coordinates({ 0,0 }), length(0), height(0)
+//TextilePatch TextilePatch::Fill(string RawInput) //ID(" "), UpperLeft({ 0,0 }), length(0), height(0)
 //{
 //
 //	height = stoi(RawInput.substr(DelimiterPosition(RawInput,"x")+1));
@@ -20,10 +20,10 @@ TextilePatch::TextilePatch():ID("id"), Coordinates({}), length(0), height(0)
 //	length = stoi(RawInput.substr(DelimiterPosition(RawInput, ":")+1));
 //	RawInput.erase(DelimiterPosition(RawInput, ":"), string::npos);
 //
-//	Coordinates.second = stoi(RawInput.substr(DelimiterPosition(RawInput, ",")+1));
+//	UpperLeft.second = stoi(RawInput.substr(DelimiterPosition(RawInput, ",")+1));
 //	RawInput.erase(DelimiterPosition(RawInput, ","), string::npos);
 //
-//	Coordinates.first = stoi(RawInput.substr(DelimiterPosition(RawInput, "@")+1));
+//	UpperLeft.first = stoi(RawInput.substr(DelimiterPosition(RawInput, "@")+1));
 //	RawInput.erase(DelimiterPosition(RawInput, "@"), string::npos);
 //
 //	ID = RawInput;
@@ -47,9 +47,9 @@ bool operator<(const TextilePatch &left, const TextilePatch  &right)
 std::set<std::pair<int, int>> TextilePatch::WholeMap()
 {
 	std::set<std::pair<int, int>> tempset;
-	for (int l = Coordinates.first; l < Coordinates.first+length; l++)
+	for (int l = UpperLeft.first; l < UpperLeft.first+length; l++)
 	{
-		for (int h = Coordinates.second; h < Coordinates.second+height; h++)
+		for (int h = UpperLeft.second; h < UpperLeft.second+height; h++)
 		{
 			tempset.insert(make_pair(l, h));
 		}
@@ -60,9 +60,9 @@ std::set<std::pair<int, int>> TextilePatch::WholeMap()
 std::set<std::string> TextilePatch::WholeMapString()
 {
 	std::set<std::string> tempset;
-	for (int l = Coordinates.first; l < Coordinates.first + length; l++)
+	for (int l = UpperLeft.first; l < UpperLeft.first + length; l++)
 	{
-		for (int h = Coordinates.second; h < Coordinates.second + height; h++)
+		for (int h = UpperLeft.second; h < UpperLeft.second + height; h++)
 		{
 			tempset.insert(std::to_string(h) + "x"+ std::to_string(l));
 		}
@@ -74,4 +74,20 @@ int TextilePatch::MapSize()
 {
 	int temp = WholeMap().size();
 	return temp;
+}
+//
+//bool TextilePatch::DoTheyOverlap(TextilePatch Piece1, TextilePatch Piece2)
+//{
+//	if ( max(Piec))
+//}
+
+//bool TextilePatch::DoTheyOverlap(TextilePatch Piece1, TextilePatch Piece2)
+//{
+//	if (max(Piec))
+//}
+
+std::pair<int, int> TextilePatch::CalculateOverlap(TextilePatch Piece1, TextilePatch Piece2)
+{
+	//if (distance(Piece1.LowerRight, Piece2.UpperLeft) > distance(Piece1.UpperLeft, Piece2.LowerRight) )
+	return std::pair<int, int>();
 }
