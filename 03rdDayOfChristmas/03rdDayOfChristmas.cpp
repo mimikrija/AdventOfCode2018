@@ -82,7 +82,7 @@ int main()
 		
 			SinglePatch.ID = RawInput;
 
-			// calculate and assign bounds of the patch
+			// calculate and assign all points of the patch
 			
 			SinglePatch.LowerRight.first = SinglePatch.UpperLeft.first + SinglePatch.length;
 			SinglePatch.LowerRight.second = SinglePatch.UpperLeft.second + SinglePatch.height;
@@ -118,37 +118,85 @@ int main()
 
 	}
 
-	bool is;
-	pair<int, int> Proba1(7, 6);
-	pair<int, int> Proba2(1, 1);
-	is = Proba1 == Proba2;
-	is = Proba1 < Proba2;
-	//is = Proba1 > Proba2;
-
-
-
-	Proba1 = subtrpair(Proba1, Proba2);
-
-	cout << PatchPairs.size()-Increment;
+	int MaxX = 0;
+	int MaxY = 0;
+	int minX = 10'000;
+	int minY = 10'000;
 
 	for (TextilePatch SinglePatch : ListOfPatches)
 	{
-		for (pair<int, int> p : SinglePatch.WholeMap())
+		if (SinglePatch.LowerRight.first > MaxX)
 		{
-			if ( any_of(begin(AvailableCutOutMap), end(AvailableCutOutMap), 
-				[p](pair<int, int> elem) { return p.first == elem.first && p.second == elem.second; }))
+			MaxX = SinglePatch.LowerRight.first;
+		}
+		if (SinglePatch.LowerRight.second > MaxY)
+		{
+			MaxY = SinglePatch.LowerRight.second;
+		}
+		if (SinglePatch.LowerRight.first < minX)
+		{
+			minX = SinglePatch.LowerRight.first;
+		}
+		if (SinglePatch.LowerRight.second < minY)
+		{
+			minY = SinglePatch.LowerRight.second;
+		}
+	}
+
+	cout << "Max X is: " << MaxX << endl;
+	cout << "Max Y is: " << MaxY << endl;
+
+	cout << "min X is: " << minX << endl;
+	cout << "min Y is: " << minY << endl;
+
+	const int GlobalX = MaxX, GlobalY=MaxY;
+
+	char GlobalMap[1000][1000];
+	
+	for (TextilePatch SinglePatch : ListOfPatches)
+	{
+		for (auto coord : SinglePatch.WholeMap() )
+		{
+			if (GlobalMap[coord.first][coord.second] == 'f')
+			{
+				GlobalMap[coord.first][coord.second] = 'd';
+			}
+			else 
+			{
+				if (GlobalMap[coord.first][coord.second] == 'd')
+				{
+					
+				}
+				else
+				{
+					GlobalMap[coord.first][coord.second] = 'f';
+				}
+			}
+		}
+	}
+
+   // Overlap = count(begin(GlobalMap), end(GlobalMap), 'd'); // why does this not work
+
+	for (int i = 0; i <= MaxX; i++ )
+	{
+		for (int j = 0; j <= MaxY; j++)
+		{
+			if ( GlobalMap[i][j] == 'd' )
 			{
 				Overlap++;
 			}
-			AvailableCutOutMap.insert(p);
 		}
-		AttemptedCutOut += SinglePatch.MapSize();
+
 	}
 
-	//cout << "Available cutout size is: " << AvailableCutOutMap.size() << ", " << endl;
-	//cout << "The attempted size is: " << AttemptedCutOut << ", " << endl; // oh no, that's all of the overlaps
-	 //cout << "Overlapped square inches: " << AttemptedCutOut - AvailableCutOutMap.size() << "!! " << endl; // oh no, that's all of the overlaps
-	cout << "Overlapped square inches: " << Overlap << "!! " << endl; 
+	cout << "Overlapped square inches: " << Overlap << "!! " << endl;
+
+		
+
+
+
+
+
 
     return 0;
 }

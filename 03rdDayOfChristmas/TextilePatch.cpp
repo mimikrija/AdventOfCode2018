@@ -2,10 +2,7 @@
 #include <string>
 
 using namespace std;
-//auto TextilePatch::DelimiterPosition(string InputString, string delimiter)
-//{
-//	return InputString.find(delimiter);
-//}
+
 
 TextilePatch::TextilePatch():ID("id"), UpperLeft({}), length(0), height(0)
 {
@@ -39,10 +36,7 @@ bool operator<(const TextilePatch &left, const TextilePatch  &right)
 	return left.ID < right.ID;
 }
 
-//TextilePatch operator+=(const TextilePatch & left, const TextilePatch & right)
-//{
-//	return (left.WholeMap).insert(right.WholeMap);
-//}
+
 
 std::set<std::pair<int, int>> TextilePatch::WholeMap()
 {
@@ -57,37 +51,8 @@ std::set<std::pair<int, int>> TextilePatch::WholeMap()
 	return tempset;
 }
 
-std::set<std::string> TextilePatch::WholeMapString()
-{
-	std::set<std::string> tempset;
-	for (int l = UpperLeft.first; l < UpperLeft.first + length; l++)
-	{
-		for (int h = UpperLeft.second; h < UpperLeft.second + height; h++)
-		{
-			tempset.insert(std::to_string(h) + "x"+ std::to_string(l));
-		}
-	}
-	return tempset;
-}
 
-int TextilePatch::MapSize()
-{
-	int temp = WholeMap().size();
-	return temp;
-}
-//
-//bool TextilePatch::DoTheyOverlap(TextilePatch Piece1, TextilePatch Piece2)
-//{
-//	if ( max(Piec))
-//}
 
-//bool TextilePatch::DoTheyOverlap(TextilePatch Piece1, TextilePatch Piece2)
-//{
-//	if (max(Piec))
-//}
 
-std::pair<int, int> TextilePatch::CalculateOverlap(TextilePatch Piece1, TextilePatch Piece2)
-{
-	//if (distance(Piece1.LowerRight, Piece2.UpperLeft) > distance(Piece1.UpperLeft, Piece2.LowerRight) )
-	return std::pair<int, int>();
-}
+
+
