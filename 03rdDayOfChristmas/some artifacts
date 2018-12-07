@@ -1,0 +1,22 @@
+float distance(pair<int, int> One, pair<int, int> Two)
+{
+	return sqrt((Two.first - One.first) ^ 2 + (Two.second - One.second) ^ 2);
+}
+
+// define operations on pairs, it would be more elgant to write operator overloads for template pair but not for now
+
+pair<int, int> sumpair(pair<int, int> One, pair<int, int> Two)
+{
+	pair<int, int> temp;
+	temp.first = One.first + Two.first;
+	temp.second = One.second + Two.second;
+	return temp;
+}
+
+pair<int, int> subtrpair(pair<int, int> One, pair<int, int> Two)
+{
+	pair<int, int> temp;
+	temp.first = One.first - Two.first;
+	temp.second = One.second - Two.second;
+	return temp;
+}

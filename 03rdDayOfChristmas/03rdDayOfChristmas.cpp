@@ -17,45 +17,15 @@ auto DelimiterPosition(string InputString, string delimiter)
 	return InputString.find(delimiter);
 }
 
-float distance(pair<int, int> One, pair<int, int> Two)
-{
-	return sqrt((Two.first - One.first) ^ 2 + (Two.second - One.second) ^ 2);
-}
-
-// define operations on pairs, it would be more elgant to write operator overloads for template pair but not for now
-
-pair<int, int> sumpair(pair<int, int> One, pair<int, int> Two)
-{
-	pair<int, int> temp;
-	temp.first = One.first + Two.first;
-	temp.second = One.second + Two.second;
-	return temp;
-}
-
-pair<int, int> subtrpair(pair<int, int> One, pair<int, int> Two)
-{
-	pair<int, int> temp;
-	temp.first = One.first - Two.first;
-	temp.second = One.second - Two.second;
-	return temp;
-}
-
-//bool ispairin(pair<int, int> p, TextilePatch Rectangle) // checks if point is inside of a rectangle
-//{
-//	//pair<int, int> temp;
-//	if (  )
-//	return temp;
-//}
 
 int main()
 {
 	string TextileInitializator, InputFileName;
 	set<TextilePatch> ListOfPatches;
-	TextilePatch OneBigPatch, SinglePatch, marko;
-	set <pair<int, int>> AvailableCutOutMap, PatchPairs;
-	int AttemptedCutOut = 0;
+	TextilePatch SinglePatch;
+
 	int Overlap = 0;
-	int Increment = 0;
+	
 
 	set<string> Patches;
 	
@@ -82,39 +52,14 @@ int main()
 		
 			SinglePatch.ID = RawInput;
 
-			// calculate and assign all points of the patch
+			// calculate and assign all points/corners of the patch, assign area (for second part)
 			
 			SinglePatch.LowerRight.first = SinglePatch.UpperLeft.first + SinglePatch.length;
 			SinglePatch.LowerRight.second = SinglePatch.UpperLeft.second + SinglePatch.height;
 
+			SinglePatch.area = SinglePatch.length * SinglePatch.height;
+
 			ListOfPatches.insert(SinglePatch);
-
-			// check overlap
-			//int sizebefore = PatchPairs.size();
-			//int sizepatch = SinglePatch.WholeMap().size();
-			//vector<string> Overlaps;
-			//vector<string> AvailablePatches;
-			////thisis so slow
-			//PatchPairs.insert(begin(SinglePatch.WholeMap()),end(SinglePatch.WholeMap()));
-			//int sizelater = PatchPairs.size();
-			//Increment += sizelater - sizebefore;
-			
-
-
-			//if (sizelater != sizebefore + sizepatch)
-			//{
-			//	for (string str : SinglePatch.WholeMapString())
-			//	{
-			//		if (any_of(begin(Patches), end(Patches), 
-			//			[str](string elem) { return str == elem; }))
-			//		{
-			//			Overlaps.push_back(str);
-			//		}
-
-			//	}
-			//}
-		//	Overlap += Size
-
 
 	}
 
@@ -143,29 +88,26 @@ int main()
 		}
 	}
 
-	cout << "Max X is: " << MaxX << endl;
-	cout << "Max Y is: " << MaxY << endl;
 
-	cout << "min X is: " << minX << endl;
-	cout << "min Y is: " << minY << endl;
 
 	const int GlobalX = MaxX, GlobalY=MaxY;
 
-	char GlobalMap[1000][1000];
-	
+	char GlobalMap[1000][1000]; // I don't know how to cast MaxX and MaxY as const to be used as dimensions for the global map
+	string SolutionID;
+
 	for (TextilePatch SinglePatch : ListOfPatches)
 	{
-		for (auto coord : SinglePatch.WholeMap() )
+		for (auto coord : SinglePatch.WholeMap())
 		{
+
 			if (GlobalMap[coord.first][coord.second] == 'f')
 			{
 				GlobalMap[coord.first][coord.second] = 'd';
 			}
-			else 
+			else
 			{
 				if (GlobalMap[coord.first][coord.second] == 'd')
 				{
-					
 				}
 				else
 				{
@@ -173,29 +115,49 @@ int main()
 				}
 			}
 		}
+	
 	}
 
    // Overlap = count(begin(GlobalMap), end(GlobalMap), 'd'); // why does this not work
 
-	for (int i = 0; i <= MaxX; i++ )
+	for (int i = 0; i <= MaxX; i++)
 	{
 		for (int j = 0; j <= MaxY; j++)
 		{
-			if ( GlobalMap[i][j] == 'd' )
+			if (GlobalMap[i][j] == 'd')
 			{
 				Overlap++;
 			}
 		}
+	}
 
+	
+
+	
+	for (TextilePatch SinglePatch : ListOfPatches)
+	{
+		int count = 0;
+		for (int i = SinglePatch.UpperLeft.first; i <= SinglePatch.LowerRight.first; i++)
+		{
+			for (int j = SinglePatch.UpperLeft.second; j <= SinglePatch.LowerRight.second; j++)
+			{
+				if (GlobalMap[i][j] == 'f')
+				{
+					count++;
+				}
+			}
+		}
+	
+		if (count == SinglePatch.area)
+		{
+			SolutionID = SinglePatch.ID;
+		}
+		
 	}
 
 	cout << "Overlapped square inches: " << Overlap << "!! " << endl;
 
-		
-
-
-
-
+	cout << "Single (?) unoccupied patch: " << SolutionID << "!! " << endl;
 
 
     return 0;

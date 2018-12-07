@@ -17,6 +17,7 @@ public:
 	int length;
 	int height;
 	std::pair<int, int> UpperLeft, LowerRight;
+	int area;
 
 	// public class functions
 	
