@@ -1,4 +1,3 @@
-#include "TextilePatch.h"
 #include <string>
 #include <iostream>
 #include <iterator>
@@ -12,10 +11,58 @@
 
 using namespace std;
 
+class TextilePatch
+{
+private:
+
+
+public:
+	std::string ID;
+	int length;
+	int height;
+	std::pair<int, int> UpperLeft, LowerRight;
+	int area;
+
+	// public class functions
+
+	TextilePatch(); // constructor declaration
+
+	std::set<std::pair<int, int>> TextilePatch::WholeMap();
+
+
+friend bool operator< (const TextilePatch &left, const TextilePatch  &right);
+
+};
+
 auto DelimiterPosition(string InputString, string delimiter)
 {
 	return InputString.find(delimiter);
 }
+
+TextilePatch::TextilePatch():ID("id"), UpperLeft({}), length(0), height(0)
+{
+}
+
+bool operator<(const TextilePatch &left, const TextilePatch  &right)
+{
+	return left.ID < right.ID;
+}
+
+
+
+std::set<std::pair<int, int>> TextilePatch::WholeMap()
+{
+	std::set<std::pair<int, int>> tempset;
+	for (int l = UpperLeft.first; l < UpperLeft.first+length; l++)
+	{
+		for (int h = UpperLeft.second; h < UpperLeft.second+height; h++)
+		{
+			tempset.insert(make_pair(l, h));
+		}
+	}
+	return tempset;
+}
+
 
 
 int main()
@@ -25,14 +72,14 @@ int main()
 	TextilePatch SinglePatch;
 
 	int Overlap = 0;
-	
+
 
 	set<string> Patches;
-	
+
 	cout << "Input File name? " << endl;
 	cin >> InputFileName;
 	ifstream InputFile;
-	
+
 	InputFile.open(InputFileName);
 	set<string> ListOfRawInputs{ istream_iterator<string>{InputFile},{} };
 
@@ -40,20 +87,20 @@ int main()
 	{
 			SinglePatch.height = stoi(RawInput.substr(DelimiterPosition(RawInput,"x")+1));
 			RawInput.erase(DelimiterPosition(RawInput, "x"), string::npos);
-		
+
 			SinglePatch.length = stoi(RawInput.substr(DelimiterPosition(RawInput, ":")+1));
 			RawInput.erase(DelimiterPosition(RawInput, ":"), string::npos);
-		
+
 			SinglePatch.UpperLeft.second = stoi(RawInput.substr(DelimiterPosition(RawInput, ",")+1));
 			RawInput.erase(DelimiterPosition(RawInput, ","), string::npos);
-		
+
 			SinglePatch.UpperLeft.first = stoi(RawInput.substr(DelimiterPosition(RawInput, "@")+1));
 			RawInput.erase(DelimiterPosition(RawInput, "@"), string::npos);
-		
+
 			SinglePatch.ID = RawInput;
 
 			// calculate and assign all points/corners of the patch, assign area (for second part)
-			
+
 			SinglePatch.LowerRight.first = SinglePatch.UpperLeft.first + SinglePatch.length;
 			SinglePatch.LowerRight.second = SinglePatch.UpperLeft.second + SinglePatch.height;
 
@@ -115,7 +162,7 @@ int main()
 				}
 			}
 		}
-	
+
 	}
 
    // Overlap = count(begin(GlobalMap), end(GlobalMap), 'd'); // why does this not work
@@ -131,9 +178,9 @@ int main()
 		}
 	}
 
-	
 
-	
+
+
 	for (TextilePatch SinglePatch : ListOfPatches)
 	{
 		int count = 0;
@@ -147,12 +194,12 @@ int main()
 				}
 			}
 		}
-	
+
 		if (count == SinglePatch.area)
 		{
 			SolutionID = SinglePatch.ID;
 		}
-		
+
 	}
 
 	cout << "Overlapped square inches: " << Overlap << "!! " << endl;
