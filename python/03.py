@@ -9,13 +9,19 @@ def generate_coordinates(start_x, start_y, range_x, range_y):
                  for y in range(start_y, start_y+range_y)}
 
 
-def overlapping_inches(in_patches):
+def overlap(in_patches):
     total_fabric = set()
     overlap = set()
     for patch in patches.values():
         overlap |= total_fabric & patch
         total_fabric |= patch
-    return len(overlap)
+    return overlap
+
+
+def not_overlapping(in_patches, in_overlap):
+    for ID, patch in in_patches.items():
+        if not in_overlap & patch:
+            return ID
 
 
 patches = {}
@@ -24,4 +30,8 @@ for line in get_input('inputs/03.txt'):
     patches[patch_ID] = generate_coordinates(start_x, start_y, range_x, range_y)
 
 
-print_solutions(overlapping_inches(patches))
+overlapping = overlap(patches)
+overlapping_inches = len(overlapping)
+ID_not_overlapping = not_overlapping(patches, overlapping)
+
+print_solutions(overlapping_inches, ID_not_overlapping)
