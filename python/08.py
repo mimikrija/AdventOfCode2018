@@ -7,22 +7,20 @@ from collections import deque
 input_file = deque(int(num) for num in get_input('inputs/08.txt', ' '))
 
 
-def dfs(input_stream, metadata=0):
+def dfs(input_stream):
     children_count = input_stream.popleft()
     metadata_count = input_stream.popleft()
-    # base condition: single child
-    if children_count == 0:
-        metadata += sum(input_stream.popleft() for _ in range(metadata_count))
-        # return reduced input stream
-        return input_stream, metadata
-    else:
-        for child in range(children_count):
-            rest, metadata = dfs(input_stream, metadata)
-        # once we clear all the children, we need to append the metadata of the parent:
-        rest.appendleft(metadata_count)
-        rest.appendleft(0)
-        return dfs(rest, metadata)
+    total_meta = 0
 
+    # if there's any children keep recursing through the children
+    for _ in range(children_count):
+        input_stream, metadata_sum = dfs(input_stream)
+        total_meta += metadata_sum
+
+    # if we're here it means that there's either no children or we're done with recursing
+    # print(children_count, metadata_count, input_stream)
+    total_meta += sum(input_stream.popleft() for _ in range(metadata_count))
+    return input_stream, total_meta
 
 
 _, part_1 = dfs(input_file)
